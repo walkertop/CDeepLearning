@@ -94,10 +94,30 @@ void testArr() {
 */
 
 
+
+//void testPointerOrArray(bool isPointer) {
+void testA() {
+
+//    char *name = "123";        // [1]  4213 bus error  /Users/walker/Dev/DeepLearning/CDeepLearning/Poniter
+        char name[5] = "123";
+    printf("原来name的地址是%p",&name);
+    char temp = name[3];
+    name[0] = name[1];
+    name[1] = name[2];
+    name[2] = name[3];
+    name[3] = name[0];
+    name[4] = 'e';
+    printf("新的name的值是%c\n",name[4]);
+    printf("现在name的地址是%p",&name);
+}
+
+
 int main() {
 //    testPoint()
 //    testSizeofFuntion();
-    testArr();
+//    testArr();
+    testA();
+//    testPointerOrArray(TRUE);
     return 0;
 }
 
