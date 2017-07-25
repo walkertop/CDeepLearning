@@ -96,7 +96,7 @@ void testArr() {
 
 
 //void testPointerOrArray(bool isPointer) {
-void testA() {
+void testArrayOfvariable() {
 
 //    char *name = "123";        // [1]  4213 bus error  /Users/walker/Dev/DeepLearning/CDeepLearning/Poniter
         char name[5] = "123";
@@ -112,13 +112,112 @@ void testA() {
 }
 
 
+void testStruct() {
+    struct firstTyepFish {
+        char *name;
+        int teeth;
+        int age;
+    };
+    
+    struct secondTyepFish {
+        char name[20];
+        int teeth;
+        int age;
+    };
+    
+    struct firstTyepFish firstFish = {"firstShark", 69, 3};
+    struct secondTyepFish secondFish = {"secondShark", 69, 3};
+    firstFish.name = "newShark";
+    printf("%s",firstFish.name);
+    
+//    secondFish.name = "newShark";
+//    printf("%s",secondFish.name);
+    
+    /*
+     此处会报错  array type 'char [20]' is not assignable
+     因为firstFish是以指针形式保存的name，此处的name只是一个字符串指针，具体的内容放在其他地方了，修改内容，只用修改地址的指向就ok了;
+     而secondFish中的name是字符数组，其name本身就保存在结构体中，所以不可以更改
+     */
+}
+
+void structTypedef() {
+    /*
+     struct firstContact    是   结构名
+     firstContact           是   类型名
+     */
+    struct firstContact {
+        int phoneNumber;
+        const char *name;
+    };
+    struct firstContact firstPerson = {1339, "Jimmy"};
+
+    //使用typedef之后
+    typedef struct contact{
+        int phoneNumber;
+        const char *name;
+    }secondContact;
+    secondContact secondPerson = {1333, "Tom"};
+    
+    //使用typedef的匿名结构体
+    typedef struct {
+        int phoneNumber;
+        const char *name;
+    }thirdContact;
+    thirdContact thirdPerson = {1313, "Bob"};
+}
+
+typedef struct {
+    int phoneNumber;
+    const char *name;
+}contact;
+
+void updateStructByPointer(contact *person) {
+    person->phoneNumber = person->phoneNumber + 1;
+    printf("updateStructByPointer使用直接传入结构体的phoneNumber是%i",person->phoneNumber);
+}
+
+void updateStruct(contact person) {
+    person.phoneNumber = person.phoneNumber + 1;
+    printf("updateStruct使用直接传入结构体的phoneNumber是%i",person.phoneNumber);
+}
+
 int main() {
 //    testPoint()
 //    testSizeofFuntion();
 //    testArr();
-    testA();
+//    testArrayOfvariable();
 //    testPointerOrArray(TRUE);
+    
+//    testFuntionSequence();
+    
+//    testStruct();
+    contact contact = {1111,"Bryant"};
+    updateStruct(contact);              //不能修改，因为此处的contact会赋值一个新的副本，不会对原来的结构体进行修改
+    printf("修改后的phoneNumber是%i\n", contact.phoneNumber);
+    updateStructByPointer(&contact);     //能修改，因为加了指针，会通过结构体的指针找到对应的的成员，然后直接修改
+   printf("修改后的phoneNumber是%i\n", contact.phoneNumber);
     return 0;
 }
 
+//这里有个好问题：
+/*
+？？？C语言是顺序执行的，在main函数之后的函数都会发生错误嘛？
+ 先说结果： 如果返回值是int类型，只会警告，如下：
+ warning: implicit declaration of function 'testFuntionSequence' is invalid in C99
+ [-Wimplicit-function-declaration]
+ 但不会报错；
+ 若不是int类型，编译器直接报错 conflicting types for 'testFuntionSequence'
+ 为何会这样呢？
+ 
+分步骤回答：
+ 1. 在main执行时，编译器看到一个不认识的函数调用,并不会报错，而是记录下来，并且相信在后续的程序中会找到
+ 2. 编译器此时记录时需要确定函数的返回值类型，但此时不知道，会默认为int
+ 3. 等找到这个类型，发现不是int,就会报错。意味编译器会认为有两个同名函数，一个返回int，一个返回其它类型。
+ 
+ -->不过通过函数声明可以很好的解决这个问题，这样编译器就不用假设int类型，直接在声明出准确知道类型了
+ */
+int testFuntionSequence() {
+    printf("testFuntionSequence是否调用");
+    return 3;
+}
 
