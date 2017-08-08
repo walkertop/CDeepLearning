@@ -181,6 +181,23 @@ void updateStruct(contact person) {
     printf("updateStruct使用直接传入结构体的phoneNumber是%i",person.phoneNumber);
 }
 
+
+// MARK: ENUM
+
+enum week {
+    Mon,
+    Tue,
+    Wed,
+    Thu,
+    Fri,
+    Sat,
+    Sun
+};
+
+void testEnum() {
+    enum week we;
+    printf("%u",we.Fri);
+}
 int main() {
 //    testPoint()
 //    testSizeofFuntion();
@@ -190,12 +207,14 @@ int main() {
     
 //    testFuntionSequence();
     
-//    testStruct();
-    contact contact = {1111,"Bryant"};
-    updateStruct(contact);              //不能修改，因为此处的contact会赋值一个新的副本，不会对原来的结构体进行修改
-    printf("修改后的phoneNumber是%i\n", contact.phoneNumber);
-    updateStructByPointer(&contact);     //能修改，因为加了指针，会通过结构体的指针找到对应的的成员，然后直接修改
-   printf("修改后的phoneNumber是%i\n", contact.phoneNumber);
+////    testStruct();
+//    contact contact = {1111,"Bryant"};
+//    updateStruct(contact);              //不能修改，因为此处的contact会赋值一个新的副本，不会对原来的结构体进行修改
+//    printf("修改后的phoneNumber是%i\n", contact.phoneNumber);
+//    updateStructByPointer(&contact);     //能修改，因为加了指针，会通过结构体的指针找到对应的的成员，然后直接修改
+//    printf("修改后的phoneNumber是%i\n", contact.phoneNumber);
+    
+    testEnum();
     return 0;
 }
 
