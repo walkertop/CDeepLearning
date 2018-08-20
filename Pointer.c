@@ -240,3 +240,52 @@ int testFuntionSequence() {
     return 3;
 }
 
+
+
+
+// mark: C 语言的动态编译
+/*
+ C 语言本身是静态语言，
+ OC是C语言的超集，怎么解释OC的动态性
+ 
+ */
+// 这种函数地址实际就是通过hardcode的方式添加到指令中。
+void printAMethod() {
+    printf("AAA");
+}
+
+void printBMethod() {
+    printf("BBB");
+}
+
+void doPrintMethod(int typeNum) {
+    if (typeNum == 0) {
+        printAMethod;
+    } else {
+        printBMethod;
+    }
+}
+
+
+// 换个写法
+// 一下code就属于动态绑定了，因为调用的函数知道运行期才能确定
+void printAMethod() {
+    printf("AAA");
+}
+
+void printBMethod() {
+    printf("BBB");
+}
+
+void doPrintMethod(int typeNum) {
+    void (* func)();
+    if (typeNum == 0) {
+        func = printAMethod;
+    } else {
+        func = printBMethod;
+    }
+}
+
+
+
+
